@@ -67,12 +67,11 @@
   <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.574.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
+    "lucide-react": "https://esm.sh/lucide-react@0.292.0",
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
     "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client"
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
@@ -82,8 +81,439 @@
 </head>
   <body>
     <div id="root"></div>
-    <!-- Load the app with Babel -->
-    <script type="text/babel" data-type="module" data-presets="typescript,react" src="./index.tsx"></script>
+
+    <!-- Main Application Script -->
+    <script type="text/babel" data-type="module">
+      import React from 'react';
+      import ReactDOM from 'react-dom/client';
+      import { Moon, Star, Calendar, ChefHat, Utensils, Users, Flame, Leaf } from 'lucide-react';
+
+      // --- TYPES ---
+      const CategoryId = {
+        GUNUN_MENUSU: 'gunun_menusu',
+        ALAKART: 'alakart',
+        IFTAR_MENULERI: 'iftar_menuleri',
+        TATLILAR: 'tatlilar',
+        PASTALAR: 'pastalar',
+      };
+
+      // --- CONSTANTS ---
+      const CATEGORIES = [
+        { id: CategoryId.GUNUN_MENUSU, name: "Günün Menüsü", icon: "📅" },
+        { id: CategoryId.ALAKART, name: "Alakart Menüler", icon: "🍽️" },
+        { id: CategoryId.IFTAR_MENULERI, name: "İftar Menüleri", icon: "🌙" },
+        { id: CategoryId.TATLILAR, name: "Tatlılar", icon: "🍮" },
+        { id: CategoryId.PASTALAR, name: "Pastalar", icon: "🍰" },
+      ];
+
+      const DAILY_MENUS = [
+        // 1. Hafta (Kısmi)
+        { date: '19.02.2026', day: 'Perşembe', soup: 'Mantar Çorbası', main: 'Uluırmak Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '20.02.2026', day: 'Cuma', soup: 'Mercimek Çorbası', main: 'Tas Kebabı', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '21.02.2026', day: 'Cumartesi', soup: 'Domates Çorbası', main: 'İzmir Köfte', side: 'Pirinç Pilavı', salad: 'Cacık' },
+        { date: '22.02.2026', day: 'Pazar', soup: 'Ezogelin Çorbası', main: 'Çiftlik Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+
+        // 2. Hafta
+        { date: '23.02.2026', day: 'Pazartesi', soup: 'Şehriye Çorbası', main: 'Rosto Köfte', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '24.02.2026', day: 'Salı', soup: 'Mercimek Çorbası', main: 'Saksı Kebabı', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '25.02.2026', day: 'Çarşamba', soup: 'Mantar Çorbası', main: 'Patlıcan Musakka', side: 'Pirinç Pilavı', salad: 'Cacık' },
+        { date: '26.02.2026', day: 'Perşembe', soup: 'Domates Çorbası', main: 'Et Sote', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '27.02.2026', day: 'Cuma', soup: 'Ezogelin Çorbası', main: 'Sebzeli Köfte', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '28.02.2026', day: 'Cumartesi', soup: 'Şehriye Çorbası', main: 'Orman Kebabı', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '01.03.2026', day: 'Pazar', soup: 'Mantar Çorbası', main: 'Karnıyarık', side: 'Pirinç Pilavı', salad: 'Cacık' },
+
+        // 3. Hafta
+        { date: '02.03.2026', day: 'Pazartesi', soup: 'Mercimek Çorbası', main: 'Uluırmak Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '03.03.2026', day: 'Salı', soup: 'Ezogelin Çorbası', main: 'Tas Kebabı', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '04.03.2026', day: 'Çarşamba', soup: 'Domates Çorbası', main: 'İzmir Köfte', side: 'Pirinç Pilavı', salad: 'Cacık' },
+        { date: '05.03.2026', day: 'Perşembe', soup: 'Şehriye Çorbası', main: 'Çiftlik Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '06.03.2026', day: 'Cuma', soup: 'Y.Yoğurt Çorbası', main: 'Rosto Köfte', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '07.03.2026', day: 'Cumartesi', soup: 'Şehriye Çorbası', main: 'Saksı Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '08.03.2026', day: 'Pazar', soup: 'Mantar Çorbası', main: 'Patlıcan Musakka', side: 'Pirinç Pilavı', salad: 'Cacık' },
+
+        // 4. Hafta
+        { date: '09.03.2026', day: 'Pazartesi', soup: 'Mercimek Çorbası', main: 'Et Sote', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '10.03.2026', day: 'Salı', soup: 'Ezogelin Çorbası', main: 'Sebzeli Köfte', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '11.03.2026', day: 'Çarşamba', soup: 'Şehriye Çorbası', main: 'Orman Kebabı', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '12.03.2026', day: 'Perşembe', soup: 'Mantar Çorbası', main: 'Karnıyarık', side: 'Pirinç Pilavı', salad: 'Cacık' },
+        { date: '13.03.2026', day: 'Cuma', soup: 'Mercimek Çorbası', main: 'Uluırmak Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '14.03.2026', day: 'Cumartesi', soup: 'Ezogelin Çorbası', main: 'Tas Kebabı', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '15.03.2026', day: 'Pazar', soup: 'Domates Çorbası', main: 'İzmir Köfte', side: 'Pirinç Pilavı', salad: 'Cacık' },
+
+        // 5. Hafta
+        { date: '16.03.2026', day: 'Pazartesi', soup: 'Şehriye Çorbası', main: 'Çiftlik Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+        { date: '17.03.2026', day: 'Salı', soup: 'Ezogelin Çorbası', main: 'Rosto Köfte', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '18.03.2026', day: 'Çarşamba', soup: 'Mercimek Çorbası', main: 'Saksı Kebabı', side: 'Bulgur Pilavı', salad: 'Salata' },
+        { date: '19.03.2026', day: 'Perşembe', soup: 'Mantar Çorbası', main: 'Uluırmak Kebabı', side: 'Pirinç Pilavı', salad: 'Salata' },
+      ];
+
+      const MENU_ITEMS = [
+        // İFTAR MENÜLERİ
+        {
+          id: 'i1',
+          categoryId: CategoryId.IFTAR_MENULERI,
+          name: 'İftar Et Sote',
+          description: 'İftar Tabağı, Mercimek Çorbası, Et Sote, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
+          price: 700,
+        },
+        {
+          id: 'i2',
+          categoryId: CategoryId.IFTAR_MENULERI,
+          name: 'İftar Piliç Sarma',
+          description: 'İftar Tabağı, Mercimek Çorbası, Piliç Sarma, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
+          price: 500,
+        },
+        {
+          id: 'i3',
+          categoryId: CategoryId.IFTAR_MENULERI,
+          name: 'İftar Rosto Köfte',
+          description: 'İftar Tabağı, Mercimek Çorbası, Rosto Köfte, Patates Püresi, Salata, Tatlı, Soğuk İçecek, Çay',
+          price: 700,
+        },
+        {
+          id: 'i4',
+          categoryId: CategoryId.IFTAR_MENULERI,
+          name: 'İftar Tavuk Sote',
+          description: 'İftar Tabağı, Mercimek Çorbası, Tavuk Sote, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
+          price: 500,
+        },
+        {
+          id: 'i5',
+          categoryId: CategoryId.IFTAR_MENULERI,
+          name: 'İftar Uluırmak Kebabı',
+          description: 'İftar Tabağı, Mercimek Çorbası, Uluırmak Kebabı, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
+          price: 600,
+        },
+        {
+          id: 'i6',
+          categoryId: CategoryId.IFTAR_MENULERI,
+          name: 'İftar Uluırmak Köfte',
+          description: 'İftar Tabağı, Mercimek Çorbası, Uluırmak Köfte, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
+          price: 700,
+        },
+
+        // ALAKART MENÜLER
+        {
+          id: 'a1',
+          categoryId: CategoryId.ALAKART,
+          name: 'Tavuk Sote',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Tavuk Sote, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 350,
+        },
+        {
+          id: 'a2',
+          categoryId: CategoryId.ALAKART,
+          name: 'Tavuk Şiş',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Tavuk Şiş, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 350,
+        },
+        {
+          id: 'a3',
+          categoryId: CategoryId.ALAKART,
+          name: 'Tavuk Bonfile',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Tavuk Bonfile, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 350,
+        },
+        {
+          id: 'a4',
+          categoryId: CategoryId.ALAKART,
+          name: 'Mantar Sote',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Mantar Sote, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 350,
+          isVegetarian: true,
+        },
+        {
+          id: 'a5',
+          categoryId: CategoryId.ALAKART,
+          name: 'Et Sote',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Et Sote, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 400,
+        },
+        {
+          id: 'a6',
+          categoryId: CategoryId.ALAKART,
+          name: 'Sac Kavurma',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Sac Kavurma, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 500,
+        },
+        {
+          id: 'a7',
+          categoryId: CategoryId.ALAKART,
+          name: 'Karışık Sote',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Karışık Sote, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 400,
+        },
+        {
+          id: 'a8',
+          categoryId: CategoryId.ALAKART,
+          name: 'Karışık Izgara',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Karışık Izgara, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 500,
+        },
+        {
+          id: 'a9',
+          categoryId: CategoryId.ALAKART,
+          name: 'Izgara Köfte',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Izgara Köfte, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 400,
+        },
+        {
+          id: 'a10',
+          categoryId: CategoryId.ALAKART,
+          name: 'Kılıçarslan Çökertmesi',
+          description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Kılıçarslan Çökertmesi, Günün Pilavı, Yeşil Salata, Kaşık Salata',
+          price: 350,
+        },
+
+        // TATLILAR
+        { id: 't1', categoryId: CategoryId.TATLILAR, name: 'Helvadere', description: 'Özel sunumlu helva tatlısı.', price: 75 },
+        { id: 't2', categoryId: CategoryId.TATLILAR, name: 'Sütlaç', description: 'Fırınlanmış sütlaç.', price: 65 },
+        { id: 't3', categoryId: CategoryId.TATLILAR, name: 'Hasandağı Zirvesi', description: 'Özel spesiyal tatlı.', price: 150 },
+        { id: 't4', categoryId: CategoryId.TATLILAR, name: 'Trileçe', description: 'Karamel soslu sütlü tatlı.', price: 80 },
+        { id: 't5', categoryId: CategoryId.TATLILAR, name: 'Revani', description: 'Şerbetli irmik tatlısı.', price: 65 },
+        { id: 't6', categoryId: CategoryId.TATLILAR, name: 'Güz Güneşi', description: 'Mevsim meyveleri ile hafif tatlı.', price: 65 },
+        { id: 't7', categoryId: CategoryId.TATLILAR, name: 'Güllaç', description: 'Ramazan klasiği, cevizli ve sütlü.', price: 65 },
+        { id: 't8', categoryId: CategoryId.TATLILAR, name: 'Kalburabastı', description: 'Cevizli şerbetli tatlı.', price: 65 },
+        { id: 't9', categoryId: CategoryId.TATLILAR, name: 'Profiterol', description: 'Çikolata soslu klasik lezzet.', price: 150 },
+        { id: 't10', categoryId: CategoryId.TATLILAR, name: 'İncim', description: 'Hafif sütlü tatlı.', price: 120 },
+        { id: 't11', categoryId: CategoryId.TATLILAR, name: 'Lattem', description: 'Kahve aromalı tatlı.', price: 100 },
+        { id: 't12', categoryId: CategoryId.TATLILAR, name: 'İncelek', description: 'Geleneksel lezzet.', price: 70 },
+        { id: 't13', categoryId: CategoryId.TATLILAR, name: 'Kadayıf Burma', description: 'Fıstıklı burma kadayıf.', price: 175 },
+        { id: 't14', categoryId: CategoryId.TATLILAR, name: 'Magnolya', description: 'Muzlu ve çilekli seçenekleriyle.', price: 65 },
+
+        // PASTALAR
+        { id: 'p1', categoryId: CategoryId.PASTALAR, name: 'Rulo Pasta', description: 'Meyveli rulo pasta.', price: 110 },
+        { id: 'p2', categoryId: CategoryId.PASTALAR, name: 'Mozaik Pasta', description: 'Klasik bisküvili mozaik pasta.', price: 80 },
+        { id: 'p3', categoryId: CategoryId.PASTALAR, name: 'Balbadem', description: 'Bal ve bademli özel pasta.', price: 140 },
+        { id: 'p4', categoryId: CategoryId.PASTALAR, name: 'Sultanhanı', description: 'Fıstıklı özel yapım pasta.', price: 160 },
+        { id: 'p5', categoryId: CategoryId.PASTALAR, name: 'Ekler', description: 'Çikolatalı ve kremalı ekler (Adet).', price: 25 },
+        { id: 'p6', categoryId: CategoryId.PASTALAR, name: 'Eğri Minare', description: 'Şekilli özel tasarım pasta.', price: 200 },
+        { id: 'p7', categoryId: CategoryId.PASTALAR, name: 'Aşıklı Höyük', description: 'Katmanlı özel pasta.', price: 170 },
+        { id: 'p8', categoryId: CategoryId.PASTALAR, name: 'Ekecik', description: 'Çikolata ve meyve uyumu.', price: 170 },
+        { id: 'p9', categoryId: CategoryId.PASTALAR, name: 'Profesör Pasta', description: 'Yoğun çikolatalı pasta.', price: 120 },
+        { id: 'p10', categoryId: CategoryId.PASTALAR, name: 'Sarıkaraman', description: 'Limonlu ve meyveli pasta.', price: 200 },
+        { id: 'p11', categoryId: CategoryId.PASTALAR, name: 'Topakkaya', description: 'Karamelli pasta.', price: 80 },
+        { id: 'p12', categoryId: CategoryId.PASTALAR, name: 'Belisırma', description: 'Fındıklı pasta.', price: 100 },
+      ];
+
+      // --- COMPONENTS ---
+
+      // Header Component
+      const Header = () => {
+        return (
+          <header className="relative bg-emerald-950 text-amber-50 overflow-hidden shadow-lg pb-6 md:pb-10 rounded-b-[2rem] md:rounded-b-[2.5rem]">
+            {/* Background Decorative Elements */}
+            <div className="absolute top-0 right-0 p-4 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+              <Moon size={120} className="md:w-[180px] md:h-[180px]" />
+            </div>
+            <div className="absolute top-8 left-8 opacity-20">
+              <Star size={16} className="text-amber-300 animate-pulse md:w-5 md:h-5" />
+            </div>
+            
+            <div className="relative z-10 px-4 md:px-6 pt-8 md:pt-12 text-center">
+              <div className="flex justify-center items-center gap-2 mb-2 text-amber-400">
+                 <Moon size={20} className="md:w-6 md:h-6" fill="currentColor" />
+                 <span className="font-serif tracking-widest uppercase text-xs md:text-sm">Hayırlı Ramazanlar</span>
+              </div>
+              <h1 className="font-serif text-3xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 leading-tight">
+                Uluırmak Uygulama Oteli
+              </h1>
+              <p className="text-emerald-200/80 text-xs md:text-base max-w-md mx-auto px-4">
+                Geleneksel lezzetlerimizle iftar sofranız şenlensin.
+              </p>
+            </div>
+          </header>
+        );
+      };
+
+      // MenuItemCard Component
+      const MenuItemCard = ({ item, hideDescription }) => {
+        const isDessertOrPastry = item.categoryId === CategoryId.TATLILAR || item.categoryId === CategoryId.PASTALAR;
+        const priceUnit = isDessertOrPastry ? '/ Adet' : '/ Kişi Başı';
+
+        return (
+          <div className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:border-emerald-100 flex flex-col justify-between h-full">
+            
+            <div className="flex justify-between items-start gap-3 mb-2">
+              <h3 className="font-serif text-lg md:text-xl font-bold text-emerald-950 leading-tight">{item.name}</h3>
+              <div className="flex gap-1 shrink-0">
+                {item.isSpicy && (
+                  <div className="bg-red-50 p-1 rounded-full border border-red-100" title="Acılı">
+                    <Flame size={14} className="text-red-500 fill-red-500" />
+                  </div>
+                )}
+                {item.isVegetarian && (
+                  <div className="bg-green-50 p-1 rounded-full border border-green-100" title="Vejetaryen">
+                    <Leaf size={14} className="text-green-600 fill-green-600" />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {!hideDescription && (
+              <div className="mb-3 md:mb-4">
+                <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">{item.description}</p>
+              </div>
+            )}
+            
+            <div className={`flex justify-between items-center ${!hideDescription ? 'pt-3 border-t border-gray-50 mt-auto' : 'mt-2'}`}>
+              <div className="flex items-baseline gap-1">
+                <span className="text-emerald-900 font-bold text-lg md:text-xl">{item.price} ₺</span>
+                <span className="text-xs text-gray-500 font-medium">{priceUnit}</span>
+              </div>
+              
+              {item.categoryId === CategoryId.IFTAR_MENULERI && (
+                <div className="flex items-center gap-1 bg-amber-50 border border-amber-200 text-amber-800 text-[10px] md:text-xs px-2 py-1 rounded-full font-bold shadow-sm">
+                  <Users size={12} className="text-amber-600" />
+                  <span className="whitespace-nowrap">10+ Kişi</span>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+      // App Component
+      const App = () => {
+        // Get current date in DD.MM.YYYY format
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        const todayFormatted = `${day}.${month}.${year}`;
+        
+        const dailyMenu = DAILY_MENUS.find(m => m.date === todayFormatted);
+        const currentDayName = today.toLocaleDateString('tr-TR', { weekday: 'long' });
+
+        return (
+          <div className="min-h-screen bg-[#fdfbf7] pb-10">
+            <Header />
+            
+            <main className="max-w-3xl mx-auto px-4 pt-4 md:pt-6 space-y-8 md:space-y-12">
+              {CATEGORIES.map((cat) => {
+                // Özel Durum: Günün Menüsü
+                if (cat.id === CategoryId.GUNUN_MENUSU) {
+                  return (
+                    <section key={cat.id} id={`category-${cat.id}`} className="scroll-mt-24">
+                      <div className="flex items-center gap-3 mb-4 md:mb-6">
+                        <div className="h-px bg-amber-200 flex-1 opacity-50"></div>
+                        <h2 className="font-serif text-xl md:text-2xl font-bold text-emerald-950 flex items-center gap-2 whitespace-nowrap">
+                           {cat.name}
+                        </h2>
+                        <div className="h-px bg-amber-200 flex-1 opacity-50"></div>
+                      </div>
+
+                      <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-md border border-amber-100 relative overflow-hidden">
+                         {/* Decorative background */}
+                         <div className="absolute top-0 right-0 p-6 md:p-10 opacity-5">
+                            <ChefHat size={100} className="md:w-[150px] md:h-[150px]" />
+                         </div>
+
+                         <div className="relative z-10">
+                           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 mb-4 md:mb-6 border-b border-gray-100 pb-3 md:pb-4">
+                              <div>
+                                 <div className="flex items-center gap-2 text-emerald-800 font-semibold mb-1">
+                                    <Calendar size={18} className="md:w-5 md:h-5" />
+                                    <span className="text-base md:text-lg">{todayFormatted}</span>
+                                 </div>
+                                 <div className="text-gray-500 text-sm capitalize">
+                                   {dailyMenu ? dailyMenu.day : currentDayName}
+                                 </div>
+                              </div>
+                              <div className="bg-emerald-50 px-3 md:px-4 py-2 rounded-full text-emerald-900 font-bold text-sm self-start md:self-auto flex items-center gap-2">
+                                 <span className="text-base">300 ₺ <span className="text-xs font-normal opacity-70">/ Kişi Başı</span></span>
+                              </div>
+                           </div>
+
+                           {dailyMenu ? (
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-6 gap-x-8">
+                                 {[
+                                   { label: 'Çorba', value: dailyMenu.soup },
+                                   { label: 'Ana Yemek', value: dailyMenu.main },
+                                   { label: 'Yardımcı Yemek', value: dailyMenu.side },
+                                   { label: 'Salata / İçecek', value: dailyMenu.salad }
+                                 ].map((item, idx) => (
+                                   <div key={idx} className="flex items-start gap-3">
+                                      <div className="bg-amber-100 p-1.5 md:p-2 rounded-full text-amber-700 shrink-0 mt-0.5">
+                                         <Utensils size={14} className="md:w-[18px] md:h-[18px]" />
+                                      </div>
+                                      <div>
+                                         <span className="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider font-bold">{item.label}</span>
+                                         <span className="text-base md:text-lg text-gray-800 font-serif font-medium">{item.value}</span>
+                                      </div>
+                                   </div>
+                                 ))}
+                              </div>
+                           ) : (
+                              <div className="text-center py-8 text-gray-500">
+                                 <p>Bugün ({todayFormatted}) için belirlenmiş bir menü bulunamadı.</p>
+                                 <p className="text-xs mt-2 text-gray-400">Menüler ileri tarihler için planlanmış olabilir.</p>
+                              </div>
+                           )}
+                         </div>
+                      </div>
+                    </section>
+                  );
+                }
+
+                // Diğer Kategoriler
+                const items = MENU_ITEMS
+                  .filter(item => item.categoryId === cat.id)
+                  .sort((a, b) => a.name.localeCompare(b.name, 'tr-TR'));
+
+                if (items.length === 0) return null;
+
+                // Tatlılar ve Pastalar için açıklamaları gizle ve 2'li grid kullan
+                const isDessertOrPastry = cat.id === CategoryId.TATLILAR || cat.id === CategoryId.PASTALAR;
+                
+                return (
+                  <section key={cat.id} id={`category-${cat.id}`} className="scroll-mt-24">
+                    <div className="flex items-center gap-3 mb-4 md:mb-6">
+                      <div className="h-px bg-amber-200 flex-1 opacity-50"></div>
+                      <h2 className="font-serif text-xl md:text-2xl font-bold text-emerald-950 flex items-center gap-2 whitespace-nowrap">
+                         {cat.name}
+                      </h2>
+                      <div className="h-px bg-amber-200 flex-1 opacity-50"></div>
+                    </div>
+
+                    {/* İftar Menüleri için 10 Kişi Uyarısı */}
+                    {cat.id === CategoryId.IFTAR_MENULERI && (
+                      <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 md:p-4 mb-4 flex items-start md:items-center gap-3 shadow-sm">
+                        <Users className="text-amber-600 shrink-0 mt-0.5 md:mt-0" size={20} />
+                        <p className="text-amber-800 text-sm md:text-base font-medium">
+                          Bu menüler yalnızca 10 kişi ve üzeri gruplar için servis edilmektedir.
+                        </p>
+                      </div>
+                    )}
+                    
+                    <div className={`grid gap-3 md:gap-4 ${isDessertOrPastry ? 'grid-cols-2' : 'grid-cols-1 md:grid-cols-2'}`}>
+                      {items.map(item => (
+                        <MenuItemCard 
+                          key={item.id} 
+                          item={item} 
+                          hideDescription={isDessertOrPastry} 
+                        />
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
+            </main>
+          </div>
+        );
+      };
+
+      // --- MOUNT ---
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        );
+      }
+    </script>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>
