@@ -1,5 +1,5 @@
 import React from 'react';
-import { Category, CategoryId } from '../types';
+import { Category, CategoryId } from '../types.ts';
 
 interface CategoryNavProps {
   categories: Category[];

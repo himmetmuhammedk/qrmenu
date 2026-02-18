@@ -1,4 +1,4 @@
-import { Category, CategoryId, MenuItem, DailyMenu } from './types';
+import { Category, CategoryId, MenuItem, DailyMenu } from './types.ts';
 
 export const CATEGORIES: Category[] = [
   { id: CategoryId.GUNUN_MENUSU, name: "Günün Menüsü", icon: "📅" },

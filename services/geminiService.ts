@@ -1,7 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
-import { MENU_ITEMS, CATEGORIES, DAILY_MENUS } from '../constants';
+import { MENU_ITEMS, CATEGORIES, DAILY_MENUS } from '../constants.ts';
 
-const apiKey = process.env.API_KEY || '';
+// Safe check for process.env to avoid ReferenceError in browser environments
+const getApiKey = () => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env.API_KEY || '';
+  }
+  return '';
+};
+
+const apiKey = getApiKey();
 const ai = new GoogleGenAI({ apiKey });
 
 // Get current date for context

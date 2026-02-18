@@ -1,8 +1,8 @@
 import React from 'react';
-import { CATEGORIES, MENU_ITEMS, DAILY_MENUS } from './constants';
-import { CategoryId } from './types';
-import { Header } from './components/Header';
-import { MenuItemCard } from './components/MenuItemCard';
+import { CATEGORIES, MENU_ITEMS, DAILY_MENUS } from './constants.ts';
+import { CategoryId } from './types.ts';
+import { Header } from './components/Header.tsx';
+import { MenuItemCard } from './components/MenuItemCard.tsx';
 import { Calendar, ChefHat, Utensils, Users } from 'lucide-react';
 
 const App: React.FC = () => {

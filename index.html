@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Ramazan Lezzetleri | Uluırmak Uygulama Oteli</title>
-    <meta name="description" content="Ramazan ayına özel, yapay zeka destekli asistanı olan, şık ve modern bir dijital QR menü uygulaması." />
+    <meta name="description" content="Ramazan ayına özel, şık ve modern bir dijital QR menü uygulaması." />
     <meta name="theme-color" content="#022c22" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Ramazan Lezzetleri | Uluırmak Uygulama Oteli" />
-    <meta property="og:description" content="Geleneksel lezzetlerimizle iftar sofranız şenlensin. Yapay zeka asistanımızla menüyü keşfedin." />
+    <meta property="og:description" content="Geleneksel lezzetlerimizle iftar sofranız şenlensin." />
     
     <!-- Favicon (Moon Emoji) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌙</text></svg>">
@@ -71,14 +71,19 @@
     "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
     "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client"
   }
 }
 </script>
+<!-- Babel for in-browser compilation -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
+    <!-- Load the app with Babel -->
+    <script type="text/babel" data-type="module" data-presets="typescript,react" src="./index.tsx"></script>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>

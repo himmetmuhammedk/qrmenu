@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem, CategoryId } from '../types';
+import { MenuItem, CategoryId } from '../types.ts';
 import { Flame, Leaf, Users } from 'lucide-react';
 
 interface MenuItemCardProps {
