@@ -63,7 +63,7 @@ export const MENU_ITEMS: MenuItem[] = [
     categoryId: CategoryId.IFTAR_MENULERI,
     name: 'İftar Piliç Sarma',
     description: 'İftar Tabağı, Mercimek Çorbası, Piliç Sarma, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
-    price: 550,
+    price: 600,
   },
   {
     id: 'i3',
@@ -77,21 +77,21 @@ export const MENU_ITEMS: MenuItem[] = [
     categoryId: CategoryId.IFTAR_MENULERI,
     name: 'İftar Tavuk Sote',
     description: 'İftar Tabağı, Mercimek Çorbası, Tavuk Sote, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
-    price: 500,
+    price: 550,
   },
   {
     id: 'i5',
     categoryId: CategoryId.IFTAR_MENULERI,
     name: 'İftar Uluırmak Kebabı',
     description: 'İftar Tabağı, Mercimek Çorbası, Uluırmak Kebabı, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
-    price: 650,
+    price: 700,
   },
   {
     id: 'i6',
     categoryId: CategoryId.IFTAR_MENULERI,
     name: 'İftar Uluırmak Köfte',
     description: 'İftar Tabağı, Mercimek Çorbası, Uluırmak Köfte, Pirinç Pilavı, Salata, Tatlı, Soğuk İçecek, Çay',
-    price: 700,
+    price: 750,
   },
 
   // ALAKART MENÜLER
@@ -145,13 +145,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Karışık Sote, Günün Pilavı, Yeşil Salata, Kaşık Salata',
     price: 450,
   },
-  {
-    id: 'a8',
-    categoryId: CategoryId.ALAKART,
-    name: 'Karışık Izgara',
-    description: 'Haydari, Gelveri Sos, Turşu, Günün Çorbası, Karışık Izgara, Günün Pilavı, Yeşil Salata, Kaşık Salata',
-    price: 600,
-  },
+  /* Karışık Izgara Removed */
   {
     id: 'a9',
     categoryId: CategoryId.ALAKART,
@@ -194,6 +188,6 @@ export const MENU_ITEMS: MenuItem[] = [
   { id: 'p8', categoryId: CategoryId.PASTALAR, name: 'Ekecik', description: 'Çikolata ve meyve uyumu.', price: 200 },
   { id: 'p9', categoryId: CategoryId.PASTALAR, name: 'Profesör Pasta', description: 'Yoğun çikolatalı pasta.', price: 120 },
   { id: 'p10', categoryId: CategoryId.PASTALAR, name: 'Sarıkaraman', description: 'Limonlu ve meyveli pasta.', price: 250 },
-  { id: 'p11', categoryId: CategoryId.PASTALAR, name: 'Topakkaya', description: 'Karamelli pasta.', price: 80 },
-  { id: 'p12', categoryId: CategoryId.PASTALAR, name: 'Belisırma', description: 'Fındıklı pasta.', price: 100 },
+  { id: 'p11', categoryId: CategoryId.PASTALAR, name: 'Topakkaya', description: 'Karamelli pasta.', price: 90 },
+  { id: 'p12', categoryId: CategoryId.PASTALAR, name: 'Belisırma', description: 'Fındıklı pasta.', price: 120 },
 ];
