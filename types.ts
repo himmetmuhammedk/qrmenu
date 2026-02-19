@@ -1,5 +1,6 @@
 export enum CategoryId {
   GUNUN_MENUSU = 'gunun_menusu',
+  IFTARIYELIK = 'iftariyelik',
   ALAKART = 'alakart',
   IFTAR_MENULERI = 'iftar_menuleri',
   TATLILAR = 'tatlilar',

@@ -91,6 +91,7 @@
       // --- TYPES ---
       const CategoryId = {
         GUNUN_MENUSU: 'gunun_menusu',
+        IFTARIYELIK: 'iftariyelik',
         ALAKART: 'alakart',
         IFTAR_MENULERI: 'iftar_menuleri',
         TATLILAR: 'tatlilar',
@@ -100,6 +101,7 @@
       // --- CONSTANTS ---
       const CATEGORIES = [
         { id: CategoryId.GUNUN_MENUSU, name: "Günün Menüsü", icon: "📅" },
+        { id: CategoryId.IFTARIYELIK, name: "İftariyelik", icon: "🍯" },
         { id: CategoryId.ALAKART, name: "Alakart Menüler", icon: "🍽️" },
         { id: CategoryId.IFTAR_MENULERI, name: "İftar Menüleri", icon: "🌙" },
         { id: CategoryId.TATLILAR, name: "Tatlılar", icon: "🍮" },
@@ -148,6 +150,29 @@
       ];
 
       const MENU_ITEMS = [
+        // İFTARİYELİK
+        {
+          id: 'ift1',
+          categoryId: CategoryId.IFTARIYELIK,
+          name: 'İftar Tabağı Mini',
+          description: 'Domates, Hurma, Kuru İncir, Kuru Kayısı, Maydanoz, Nane, Salatalık, Siyah Zeytin, Yeşil Zeytin.',
+          price: 75,
+        },
+        {
+          id: 'ift2',
+          categoryId: CategoryId.IFTARIYELIK,
+          name: 'İftar Tabağı Standart',
+          description: 'Beyaz Peynir, Domates, Rulo Börek, Hurma, Kuru İncir, Kuru Kayısı, Maydanoz, Nane, Salatalık, Siyah Zeytin, Yeşil Zeytin.',
+          price: 100,
+        },
+        {
+          id: 'ift3',
+          categoryId: CategoryId.IFTARIYELIK,
+          name: 'İftar Tabağı Ekstra',
+          description: 'Beyaz Peynir, Kaşar Peyniri, Domates, Mini Börek, Hurma, Kuru İncir, Kuru Kayısı, Maydanoz, Nane, Bal, Reçel, Tereyağ, Portakal, Salatalık, Siyah Zeytin, Yeşil Zeytin.',
+          price: 150,
+        },
+
         // İFTAR MENÜLERİ
         {
           id: 'i1',
@@ -451,9 +476,12 @@
                 }
 
                 // Diğer Kategoriler
-                const items = MENU_ITEMS
-                  .filter(item => item.categoryId === cat.id)
-                  .sort((a, b) => a.name.localeCompare(b.name, 'tr-TR'));
+                let items = MENU_ITEMS.filter(item => item.categoryId === cat.id);
+                
+                // İftariyelik kategorisi hariç alfabetik sırala (İftariyelik: Mini-Standart-Ekstra kalmalı)
+                if (cat.id !== CategoryId.IFTARIYELIK) {
+                  items.sort((a, b) => a.name.localeCompare(b.name, 'tr-TR'));
+                }
 
                 if (items.length === 0) return null;
 

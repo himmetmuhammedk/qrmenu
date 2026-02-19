@@ -2,6 +2,7 @@ import { Category, CategoryId, MenuItem, DailyMenu } from './types.ts';
 
 export const CATEGORIES: Category[] = [
   { id: CategoryId.GUNUN_MENUSU, name: "Günün Menüsü", icon: "📅" },
+  { id: CategoryId.IFTARIYELIK, name: "İftariyelik", icon: "🍯" },
   { id: CategoryId.ALAKART, name: "Alakart Menüler", icon: "🍽️" },
   { id: CategoryId.IFTAR_MENULERI, name: "İftar Menüleri", icon: "🌙" },
   { id: CategoryId.TATLILAR, name: "Tatlılar", icon: "🍮" },
@@ -50,6 +51,29 @@ export const DAILY_MENUS: DailyMenu[] = [
 ];
 
 export const MENU_ITEMS: MenuItem[] = [
+  // İFTARİYELİK
+  {
+    id: 'ift1',
+    categoryId: CategoryId.IFTARIYELIK,
+    name: 'İftar Tabağı Mini',
+    description: 'Domates, Hurma, Kuru İncir, Kuru Kayısı, Maydanoz, Nane, Salatalık, Siyah Zeytin, Yeşil Zeytin.',
+    price: 75,
+  },
+  {
+    id: 'ift2',
+    categoryId: CategoryId.IFTARIYELIK,
+    name: 'İftar Tabağı Standart',
+    description: 'Beyaz Peynir, Domates, Rulo Börek, Hurma, Kuru İncir, Kuru Kayısı, Maydanoz, Nane, Salatalık, Siyah Zeytin, Yeşil Zeytin.',
+    price: 100,
+  },
+  {
+    id: 'ift3',
+    categoryId: CategoryId.IFTARIYELIK,
+    name: 'İftar Tabağı Ekstra',
+    description: 'Beyaz Peynir, Kaşar Peyniri, Domates, Mini Börek, Hurma, Kuru İncir, Kuru Kayısı, Maydanoz, Nane, Bal, Reçel, Tereyağ, Portakal, Salatalık, Siyah Zeytin, Yeşil Zeytin.',
+    price: 150,
+  },
+
   // İFTAR MENÜLERİ
   {
     id: 'i1',

@@ -88,9 +88,12 @@ const App: React.FC = () => {
           }
 
           // Diğer Kategoriler
-          const items = MENU_ITEMS
-            .filter(item => item.categoryId === cat.id)
-            .sort((a, b) => a.name.localeCompare(b.name, 'tr-TR'));
+          let items = MENU_ITEMS.filter(item => item.categoryId === cat.id);
+          
+          // İftariyelik kategorisi hariç alfabetik sırala (Mini-Standart-Ekstra kalmalı)
+          if (cat.id !== CategoryId.IFTARIYELIK) {
+            items.sort((a, b) => a.name.localeCompare(b.name, 'tr-TR'));
+          }
 
           if (items.length === 0) return null;
 
